@@ -1,0 +1,44 @@
+{
+  "configurations": [
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": ["--day", "1", "--part", "1"],
+      "cwd": "${workspaceFolder:aoc-2025-swift}",
+      "name": "Debug Day 1 Part 1",
+      "target": "aoc-2025",
+      "configuration": "debug",
+      "preLaunchTask": "swift: Build Debug aoc-2025"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": ["--day", "1", "--part", "1"],
+      "cwd": "${workspaceFolder:aoc-2025-swift}",
+      "name": "Day 1 Part 1",
+      "target": "aoc-2025",
+      "configuration": "release",
+      "preLaunchTask": "swift: Build Release aoc-2025"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": ["--day", "1", "--part", "2"],
+      "cwd": "${workspaceFolder:aoc-2025-swift}",
+      "name": "Debug Day 1 Part 2",
+      "target": "aoc-2025",
+      "configuration": "debug",
+      "preLaunchTask": "swift: Build Debug aoc-2025"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": ["--day", "1", "--part", "2"],
+      "cwd": "${workspaceFolder:aoc-2025-swift}",
+      "name": "Day 1 Part 2",
+      "target": "aoc-2025",
+      "configuration": "release",
+      "preLaunchTask": "swift: Build Release aoc-2025"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[tasks.setup]
+run = "lefthook install"
+
+[tasks.lint]
+run = "swift format lint --recursive ."
+
+[tasks.format]
+run = "swift format --recursive --in-place ."
+
+[tasks.check]
+depends = ["lint", "format"]
+
+[tools]
+lefthook = "latest"
