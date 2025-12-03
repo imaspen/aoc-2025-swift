@@ -3,37 +3,7 @@
     {
       "type": "swift",
       "request": "launch",
-      "args": [
-        "--day",
-        "1",
-        "--part",
-        "1"
-      ],
-      "cwd": "${workspaceFolder:aoc-2025-swift}",
-      "name": "Debug",
-      "target": "aoc-2025",
-      "configuration": "debug",
-      "preLaunchTask": "swift: Build Debug aoc-2025"
-    },
-    {
-      "type": "swift",
-      "request": "launch",
-      "args": [
-        "--day",
-        "1",
-        "--part",
-        "1"
-      ],
-      "cwd": "${workspaceFolder:aoc-2025-swift}",
-      "name": "Release",
-      "target": "aoc-2025",
-      "configuration": "release",
-      "preLaunchTask": "swift: Build Release aoc-2025"
-    },
-    {
-      "type": "swift",
-      "request": "launch",
-      "args": [],
+      "args": ["-d", "2", "-p", "2"],
       "cwd": "${workspaceFolder:aoc-2025-swift}",
       "name": "Debug aoc-2025",
       "target": "aoc-2025",
@@ -43,7 +13,7 @@
     {
       "type": "swift",
       "request": "launch",
-      "args": [],
+      "args": ["-d", "2", "-p", "2"],
       "cwd": "${workspaceFolder:aoc-2025-swift}",
       "name": "Release aoc-2025",
       "target": "aoc-2025",
