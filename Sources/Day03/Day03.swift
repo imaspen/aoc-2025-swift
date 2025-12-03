@@ -10,7 +10,10 @@ public struct Day03: Day {
 	}
 
 	public func part2(input: String) async -> String {
-		return ""
+		let result = Bank.parseBanks(from: input).map {
+			$0.getMaxJoltage(length: 12)
+		}.sum()
+		return String(result)
 	}
 }
 
@@ -29,29 +32,27 @@ struct Bank {
 			.map { Bank(from: $0) }
 	}
 
-	func getMaxJoltage() -> Int {
+	func getMaxJoltage(length: Int = 2) -> Int {
 		var joltageIndices = [Int: [Int]]()
-		let lastIndex = cells.count - 1
 
 		for (i, cell) in cells.enumerated() {
 			joltageIndices[cell, default: []].append(i)
 		}
 
 		var joltage = 0
+		var joltageIndex = -1
 
-		var joltageStartIndex = 0
-		for i in (1...9).reversed() {
-			if let pos = joltageIndices[i]?.first, pos < lastIndex {
-				joltage = i * 10
-				joltageStartIndex = pos
-				break
-			}
-		}
-
-		for i in (1...9).reversed() {
-			if let pos = joltageIndices[i]?.last, pos > joltageStartIndex {
-				joltage += i
-				break
+		for i in (0..<length).reversed() {
+			let lastValidIndex = cells.count - i
+			for x in (1...9).reversed() {
+				if let pos = joltageIndices[x]?.first(where: {
+					$0 > joltageIndex && $0 < lastValidIndex
+				}) {
+					joltage *= 10
+					joltage += x
+					joltageIndex = pos
+					break
+				}
 			}
 		}
 
