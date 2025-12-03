@@ -22,12 +22,15 @@ let package = Package(
 
 				"Day01",
 				"Day02",
+				"Day03",
 			],
 		),
 
+		.target(name: "Utils"),
+
 		.target(name: "Day01", dependencies: ["Utils"]),
 		.target(name: "Day02", dependencies: ["Utils"]),
-		.target(name: "Utils"),
+		.target(name: "Day03", dependencies: ["Utils"]),
 
 		.testTarget(
 			name: "aoc-2025-tests",
