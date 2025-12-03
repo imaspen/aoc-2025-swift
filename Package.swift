@@ -21,10 +21,12 @@ let package = Package(
 				"Utils",
 
 				"Day01",
+				"Day02",
 			],
 		),
 
 		.target(name: "Day01", dependencies: ["Utils"]),
+		.target(name: "Day02", dependencies: ["Utils"]),
 		.target(name: "Utils"),
 
 		.testTarget(
