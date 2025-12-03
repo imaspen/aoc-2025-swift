@@ -1,14 +1,20 @@
 [tasks.setup]
 run = "lefthook install"
 
+[tasks.test]
+run = "swift test"
+
 [tasks.lint]
 run = "swift format lint --recursive ."
 
 [tasks.format]
 run = "swift format --recursive --in-place ."
 
+[tasks.start]
+run = "swift run aoc-2025"
+
 [tasks.check]
-depends = ["lint", "format"]
+depends = ["lint", "test"]
 
 [tools]
 lefthook = "latest"
