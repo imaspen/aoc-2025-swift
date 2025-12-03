@@ -61,6 +61,21 @@ public struct Day01: Day {
 	}
 
 	public func part2(input: String) async -> String {
-		return ""
+		let lines = input.split(separator: "\n")
+		let instructions = lines.map { Instruction.init(from: $0) }
+
+		var pos = 50
+		var count = 0
+		for instruction in instructions {
+			let newPos = instruction.apply(to: pos)
+			if (pos < 0 && newPos > 0) || (pos > 0 && newPos < 0) || newPos == 0 {
+				count += 1
+			}
+			let (passes, endPos) = newPos.quotientAndRemainder(dividingBy: 100)
+			count += abs(passes)
+			pos = endPos
+		}
+
+		return String(count)
 	}
 }
