@@ -12,4 +12,9 @@ import struct Day04.Day04
 		let result = await day.part1(input: contents)
 		#expect(result == "13")
 	}
+
+	@Test func part2() async throws {
+		let result = await day.part2(input: contents)
+		#expect(result == "43")
+	}
 }

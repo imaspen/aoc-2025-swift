@@ -9,7 +9,7 @@ public struct Day04: Day {
 	}
 
 	public func part2(input: String) async -> String {
-		return ""
+		return String(Grid(from: input).getAllAccessible().count)
 	}
 }
 
@@ -22,7 +22,7 @@ struct Coord: Hashable {
 		self.y = y
 	}
 
-	func adjacencies() -> [Coord] {
+	func adjacencies() -> Set<Coord> {
 		return [
 			Coord(x - 1, y - 1),
 			Coord(x - 1, y),
@@ -38,11 +38,11 @@ struct Coord: Hashable {
 	}
 }
 
-struct Grid {
-	var grid: Set<Coord>
+typealias Grid = Set<Coord>
 
+extension Grid {
 	init(from input: String) {
-		grid = Set<Coord>()
+		self.init()
 
 		let lines =
 			input
@@ -58,17 +58,42 @@ struct Grid {
 
 			for (x, char) in chars {
 				if char == "@" {
-					grid.insert(Coord(x, y))
+					self.insert(Coord(x, y))
 				}
 			}
 		}
 	}
 
-	func getAccessible() -> [Coord] {
-		grid.filter { adjacencies(of: $0).count < 4 }
+	func getAccessible() -> Grid {
+		return self.filter { adjacencies(of: $0).count < 4 }
+	}
+
+	func getAllAccessible() -> Grid {
+		let iterator = AccessibilityIterator(grid: self)
+		var accessed = Grid()
+
+		for accessible in iterator {
+			accessed.formUnion(accessible)
+		}
+
+		return accessed
 	}
 
 	func adjacencies(of coord: Coord) -> [Coord] {
-		return coord.adjacencies().filter { grid.contains($0) }
+		return coord.adjacencies().filter { self.contains($0) }
+	}
+
+	private struct AccessibilityIterator: Sequence, IteratorProtocol {
+		var grid: Grid
+
+		mutating func next() -> Set<Coord>? {
+			let accessible = grid.getAccessible()
+			guard !accessible.isEmpty else {
+				return nil
+			}
+
+			grid.subtract(accessible)
+			return accessible
+		}
 	}
 }
