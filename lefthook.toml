@@ -1,3 +1,6 @@
 [[pre-commit.jobs]]
 run = "swift format lint {staged_files}"
 glob = "*.swift"
+
+[[pre-commit.jobs]]
+run = "swift test --parallel --enable-swift-testing"
