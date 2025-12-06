@@ -14,7 +14,31 @@ public struct Day05: Day {
 	}
 
 	public func part2(input: String) async -> String {
-		return ""
+		var (_, nextRanges) = parseInput(input)
+		var freshRanges = [FreshRange]()
+
+		while nextRanges.count != freshRanges.count {
+			freshRanges = nextRanges
+			nextRanges.removeAll()
+
+			rangeLoop: for range in freshRanges {
+				for (i, other) in nextRanges.enumerated() {
+					if other.contains(range) {
+						continue rangeLoop
+					} else if other.overlaps(range) {
+						nextRanges[i].merge(with: range)
+						continue rangeLoop
+					}
+				}
+				nextRanges.append(range)
+			}
+		}
+
+		return
+			freshRanges
+			.map { $0.count }
+			.sum()
+			.description
 	}
 }
 
@@ -61,5 +85,11 @@ extension FreshRange {
 				let parts = line.split(separator: "-").map { Int($0)! }
 				return Self(uncheckedBounds: (lower: parts[0], upper: parts[1]))
 			}
+	}
+
+	mutating func merge(with other: Self) {
+		let lowerBound = Swift.min(lowerBound, other.lowerBound)
+		let upperBound = Swift.max(upperBound, other.upperBound)
+		self = lowerBound...upperBound
 	}
 }
