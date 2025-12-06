@@ -12,4 +12,9 @@ import struct Day06.Day06
 		let result = await day.part1(input: contents)
 		#expect(result == "4277556")
 	}
+
+	@Test func part2() async throws {
+		let result = await day.part2(input: contents)
+		#expect(result == "3263827")
+	}
 }
