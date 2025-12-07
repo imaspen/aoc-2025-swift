@@ -26,6 +26,7 @@ let package = Package(
 				"Day04",
 				"Day05",
 				"Day06",
+				"Day07",
 			],
 		),
 
@@ -37,6 +38,7 @@ let package = Package(
 		.target(name: "Day04", dependencies: ["Utils"]),
 		.target(name: "Day05", dependencies: ["Utils"]),
 		.target(name: "Day06", dependencies: ["Utils"]),
+		.target(name: "Day07", dependencies: ["Utils"]),
 
 		.testTarget(
 			name: "aoc-2025-tests",
