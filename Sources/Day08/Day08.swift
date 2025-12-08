@@ -32,7 +32,24 @@ public struct Day08: Day {
 	}
 
 	public func part2(input: String) async -> String {
-		return ""
+		let boxes = JunctionBox.parseBoxes(from: input)
+		let pairs = boxes.enumerated().flatMap { i, boxA in
+			boxes[(i + 1)...].compactMap {
+				JunctionBox.Pair(boxA: boxA, boxB: $0)
+			}
+		}.sorted { $0.distanceSquared < $1.distanceSquared }
+		var circuits = boxes.map { $0.circuit }
+
+		for pair in pairs {
+			pair.boxA.circuit.connect(to: pair.boxB.circuit)
+			circuits.removeAll { $0.junctionBoxes.isEmpty }
+
+			if circuits.count == 1 {
+				return (pair.boxA.pos.x * pair.boxB.pos.x).description
+			}
+		}
+
+		fatalError("no way to close the circuits")
 	}
 }
 
