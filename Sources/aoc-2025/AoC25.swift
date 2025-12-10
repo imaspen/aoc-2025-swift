@@ -17,6 +17,7 @@ import struct Day06.Day06
 import struct Day07.Day07
 import struct Day08.Day08
 import struct Day09.Day09
+import struct Day10.Day10
 
 enum AoCDay: Int, ExpressibleByArgument {
 	init?(argument: String) {
@@ -38,6 +39,7 @@ enum AoCDay: Int, ExpressibleByArgument {
 	case day7 = 7
 	case day8 = 8
 	case day9 = 9
+	case day10 = 10
 
 	var day: Day {
 		switch self {
@@ -59,6 +61,8 @@ enum AoCDay: Int, ExpressibleByArgument {
 			return Day08()
 		case .day9:
 			return Day09()
+		case .day10:
+			return Day10()
 		}
 	}
 
