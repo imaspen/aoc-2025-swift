@@ -5,18 +5,20 @@ public struct Day11: Day {
 	public init() {}
 
 	public func part1(input: String) async -> String {
-		let devices = Devices(from: input)
-		return devices.solve().description
+		return Devices(from: input)
+			.solve(from: "you")
+			.description
 	}
 
 	public func part2(input: String) async -> String {
-		""
+		return Devices(from: input)
+			.solve(from: "svr", visiting: ["dac", "fft"])
+			.description
 	}
 }
 
 class Devices {
 	private let devices: [String: [String]]
-	private let start = "you"
 	private let end = "out"
 
 	init(from input: some StringProtocol) {
@@ -34,17 +36,33 @@ class Devices {
 			}
 	}
 
-	func solve() -> Int {
-		return solve(from: start)
+	func solve(from id: String, visiting: some Sequence<String> = []) -> Int {
+		let visited = visiting.reduce(into: [String: Bool]()) { dict, id in
+			dict[id] = false
+		}
+
+		return solve(from: id, visited: visited)
 	}
 
-	private var solveCache: [String: Int] = [:]
-	private func solve(from id: String) -> Int {
-		if id == end { return 1 }
-		if let cached = solveCache[id] { return cached }
+	private struct CacheKey: Hashable {
+		let id: String
+		let visited: [String: Bool]
+	}
+	private var solveCache: [CacheKey: Int] = [:]
+	private func solve(from id: String, visited: [String: Bool]) -> Int {
+		let key = CacheKey(id: id, visited: visited)
 
-		let result = devices[id]!.reduce(0) { $0 + solve(from: $1) }
-		solveCache[id] = result
+		if id == end { return visited.values.allSatisfy({ $0 }) ? 1 : 0 }
+		if let cached = solveCache[key] { return cached }
+
+		var visited = visited
+		if visited.keys.contains(id) { visited[id] = true }
+
+		let result = devices[id]!.reduce(0) {
+			$0 + solve(from: $1, visited: visited)
+		}
+
+		solveCache[key] = result
 		return result
 	}
 }
