@@ -10,7 +10,13 @@ let package = Package(
 	],
 	dependencies: [
 		.package(
-			url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0")
+			url: "https://github.com/apple/swift-argument-parser.git",
+			from: "1.2.0"
+		),
+		.package(
+			url: "https://github.com/LuizZak/swift-z3.git",
+			branch: "master"
+		),
 	],
 	targets: [
 		.executableTarget(
@@ -44,7 +50,9 @@ let package = Package(
 		.target(name: "Day07", dependencies: ["Utils"]),
 		.target(name: "Day08", dependencies: ["Utils"]),
 		.target(name: "Day09", dependencies: ["Utils"]),
-		.target(name: "Day10", dependencies: ["Utils"]),
+		.target(
+			name: "Day10",
+			dependencies: ["Utils", .product(name: "SwiftZ3", package: "swift-z3")]),
 
 		.testTarget(
 			name: "aoc-2025-tests",

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftZ3
 import Utils
 
 public struct Day10: Day {
@@ -12,17 +13,22 @@ public struct Day10: Day {
 	}
 
 	public func part2(input: String) async -> String {
-		return ""
+		return
+			Machine.parseAll(from: input)
+			.reduce(0) { $0 + $1.solveJoltages() }
+			.description
 	}
 }
 
 class Machine {
 	private let lights: Lights
+	private let joltages: Joltages
 	private let buttons: [Button]
 
 	init(from string: some StringProtocol) {
 		let parts = string.split(separator: " ")
 		self.lights = Lights(from: parts.first!)
+		self.joltages = Joltages(fromJoltages: parts.last!)
 		self.buttons = parts.dropFirst().dropLast().map { Button(fromButton: $0) }
 	}
 
@@ -62,6 +68,36 @@ class Machine {
 		}
 
 		return solveCache[lights]!
+	}
+
+	func solveJoltages() -> Int {
+		let context = Z3Context()
+		let solver = context.makeOptimize()
+
+		var joltages = self.joltages.map { _ in context.makeInteger(0) }
+		var total = context.makeInteger(0)
+
+		for (index, button) in buttons.enumerated() {
+			let buttonPresses = context.makeConstant(
+				name: "button_\(index)_presses", sort: IntSort.self
+			)
+
+			joltages = joltages.enumerated().map { i, joltage in
+				guard button.contains(i) else { return joltage }
+				return joltage + buttonPresses
+			}
+
+			total = total + buttonPresses
+			solver.assert(buttonPresses >= context.makeInteger(0))
+		}
+
+		for (joltage, target) in zip(joltages, self.joltages) {
+			solver.assert(joltage == context.makeInteger(Int32(target)))
+		}
+
+		_ = solver.minimize(total)
+		precondition(solver.check() == .satisfiable)
+		return Int(solver.getModel().int(total))
 	}
 }
 
